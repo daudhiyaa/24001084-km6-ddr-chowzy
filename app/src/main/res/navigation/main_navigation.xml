@@ -16,7 +16,7 @@
     </fragment>
     <activity
         android:id="@+id/foodDetailActivity"
-        android:name="com.example.chowzy.presentation.detailfood.DetailFoodActivity"
+        android:name="com.example.chowzy.presentation.detailmenu.DetailMenuActivity"
         android:label="activity_detail"
         tools:layout="@layout/activity_detail" />
 

@@ -16,7 +16,7 @@ import com.example.chowzy.data.datasource.product.DummyFoodsDataSource
 import com.example.chowzy.data.datasource.product.FoodsDataSource
 import com.example.chowzy.data.model.Menu
 import com.example.chowzy.databinding.FragmentHomeBinding
-import com.example.chowzy.presentation.detailfood.DetailFoodActivity
+import com.example.chowzy.presentation.detailmenu.DetailMenuActivity
 import com.example.chowzy.presentation.home.adapter.CategoryAdapter
 import com.example.chowzy.presentation.home.adapter.FoodsAdapter
 import com.example.chowzy.presentation.home.adapter.OnItemClickedListener
@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
 
     private fun navigateToDetail(item: Menu) {
         val navController = findNavController()
-        val bundle = bundleOf(Pair(DetailFoodActivity.EXTRAS_ITEM, item))
+        val bundle = bundleOf(Pair(DetailMenuActivity.EXTRAS_ITEM, item))
         navController.navigate(R.id.action_foodListFragment_to_foodDetailActivity, bundle)
     }
 }

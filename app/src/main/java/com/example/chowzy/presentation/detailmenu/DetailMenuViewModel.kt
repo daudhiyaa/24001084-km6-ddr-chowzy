@@ -1,4 +1,4 @@
-package com.example.chowzy.presentation.detailfood
+package com.example.chowzy.presentation.detailmenu
 
 import android.os.Bundle
 import androidx.lifecycle.LiveData
@@ -11,11 +11,11 @@ import com.example.chowzy.data.repository.cart.CartRepository
 import com.example.chowzy.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
 
-class DetailFoodViewModel(
+class DetailMenuViewModel(
     private val extras: Bundle?,
     private val cartRepository : CartRepository,
 ) : ViewModel() {
-    val food = extras?.getParcelable<Menu>(DetailFoodActivity.EXTRAS_ITEM)
+    val food = extras?.getParcelable<Menu>(DetailMenuActivity.EXTRAS_ITEM)
 
     val foodQtyLiveData = MutableLiveData(0).apply {
         postValue(0)

@@ -1,4 +1,4 @@
-package com.example.chowzy.presentation.detailfood
+package com.example.chowzy.presentation.detailmenu
 
 import android.content.Context
 import android.content.Intent
@@ -20,15 +20,15 @@ import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
 import com.example.chowzy.utils.toRupiahFormat
 
-class DetailFoodActivity : AppCompatActivity() {
+class DetailMenuActivity : AppCompatActivity() {
     private val urlMaps: String = "https://maps.app.goo.gl/h4wQKqaBuXzftGK77"
 
-    private val viewModel: DetailFoodViewModel by viewModels {
+    private val viewModel: DetailMenuViewModel by viewModels {
         val db = AppDatabase.getInstance(this)
         val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
         val cartRepo: CartRepository = CartRepositoryImpl(ds)
         GenericViewModelFactory.create(
-            DetailFoodViewModel(intent?.extras, cartRepo)
+            DetailMenuViewModel(intent?.extras, cartRepo)
         )
     }
 
@@ -122,7 +122,7 @@ class DetailFoodActivity : AppCompatActivity() {
     companion object {
         const val EXTRAS_ITEM = "EXTRAS_ITEM"
         fun startActivity(context: Context, food: Menu) {
-            val intent = Intent(context, DetailFoodActivity::class.java)
+            val intent = Intent(context, DetailMenuActivity::class.java)
             intent.putExtra(EXTRAS_ITEM, food)
             context.startActivity(intent)
         }
