@@ -20,7 +20,11 @@
     <string name="text_successfully_add_to_cart">Successfully Add to Cart</string>
     <string name="text_failed_add_to_cart">Failed Add to Cart</string>
     <string name="text_profile_header">Profile</string>
+    <string name="text_label_name">Name</string>
     <string name="text_label_username">Username</string>
     <string name="text_label_email">Email</string>
-    <string name="text_label_phone_number">Phone Number</string>
+    <string name="text_cart_is_empty">Cart is Empty</string>
+    <string name="text_hint_notes">Add Notes</string>
+    <string name="total_quantity">x%s</string>
+    <string name="text_cart_header">Your Cart</string>
 </resources>
