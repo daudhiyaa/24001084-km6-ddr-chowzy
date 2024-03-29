@@ -1,4 +1,4 @@
-package com.example.chowzy.adapter
+package com.example.chowzy.presentation.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

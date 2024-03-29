@@ -10,14 +10,14 @@
 
     <include
         android:id="@+id/layout_header"
-        layout="@layout/layout_header"
+        layout="@layout/layout_home_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp" />
 
     <include
         android:id="@+id/layout_banner"
-        layout="@layout/layout_banner"
+        layout="@layout/layout_home_banner"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginHorizontal="8dp"

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.chowzy.R
-import com.example.chowzy.adapter.CategoryAdapter
+import com.example.chowzy.presentation.home.adapter.CategoryAdapter
 import com.example.chowzy.presentation.home.adapter.FoodsAdapter
 import com.example.chowzy.presentation.home.adapter.OnItemClickedListener
 import com.example.chowzy.data.datasource.category.CategoryDataSource

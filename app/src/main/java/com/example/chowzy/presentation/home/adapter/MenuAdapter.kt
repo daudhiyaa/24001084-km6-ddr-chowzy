@@ -5,12 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chowzy.adapter.FoodGridItemViewHolder
-import com.example.chowzy.adapter.FoodListItemViewHolder
 import com.example.chowzy.base.ViewHolderBinder
 import com.example.chowzy.data.model.Menu
-import com.example.chowzy.databinding.ItemFoodBinding
-import com.example.chowzy.databinding.ItemFoodGridBinding
+import com.example.chowzy.databinding.ItemMenuBinding
+import com.example.chowzy.databinding.ItemMenuGridBinding
 
 class FoodsAdapter(
     private val listMode: Int = MODE_LIST,
@@ -40,8 +38,8 @@ class FoodsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (listMode == MODE_GRID) {
-            FoodGridItemViewHolder(
-                ItemFoodGridBinding.inflate(
+            MenuGridItemViewHolder(
+                ItemMenuGridBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -49,8 +47,8 @@ class FoodsAdapter(
                 listener
             )
         } else {
-            FoodListItemViewHolder(
-                ItemFoodBinding.inflate(
+            MenuListItemViewHolder(
+                ItemMenuBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
