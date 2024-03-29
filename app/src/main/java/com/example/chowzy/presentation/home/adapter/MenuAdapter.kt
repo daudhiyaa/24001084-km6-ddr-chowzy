@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chowzy.base.ViewHolderBinder
+import com.example.chowzy.core.ViewHolderBinder
 import com.example.chowzy.data.model.Menu
 import com.example.chowzy.databinding.ItemMenuBinding
 import com.example.chowzy.databinding.ItemMenuGridBinding

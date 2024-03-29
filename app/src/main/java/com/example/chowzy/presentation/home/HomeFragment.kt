@@ -10,9 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.chowzy.R
-import com.example.chowzy.presentation.home.adapter.CategoryAdapter
-import com.example.chowzy.presentation.home.adapter.FoodsAdapter
-import com.example.chowzy.presentation.home.adapter.OnItemClickedListener
 import com.example.chowzy.data.datasource.category.CategoryDataSource
 import com.example.chowzy.data.datasource.category.DummyCategoryDataSource
 import com.example.chowzy.data.datasource.product.DummyFoodsDataSource
@@ -20,6 +17,9 @@ import com.example.chowzy.data.datasource.product.FoodsDataSource
 import com.example.chowzy.data.model.Menu
 import com.example.chowzy.databinding.FragmentHomeBinding
 import com.example.chowzy.presentation.detailfood.DetailFoodActivity
+import com.example.chowzy.presentation.home.adapter.CategoryAdapter
+import com.example.chowzy.presentation.home.adapter.FoodsAdapter
+import com.example.chowzy.presentation.home.adapter.OnItemClickedListener
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -52,8 +52,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindBanner() {
-        binding.layoutBanner.ivBgBanner.load("https://github.com/daudhiyaa/chowzy-assets/blob/main/banner/bg_banner.jpg?raw=true") {
-            crossfade(true)
+        binding.layoutBanner.let {
+            it.ivBgBanner.load("https://github.com/daudhiyaa/chowzy-assets/blob/main/banner/bg_banner.jpg?raw=true") {
+                crossfade(true)
+            }
+            it.ivIconBanner.load("https://github.com/daudhiyaa/chowzy-assets/blob/main/banner/discount.png?raw=true") {
+                crossfade(true)
+            }
         }
     }
 
