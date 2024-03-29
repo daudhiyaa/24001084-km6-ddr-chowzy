@@ -19,4 +19,8 @@
     <string name="add_to_cart_btn">Tambah ke Keranjang - %1$s</string>
     <string name="text_successfully_add_to_cart">Successfully Add to Cart</string>
     <string name="text_failed_add_to_cart">Failed Add to Cart</string>
+    <string name="text_profile_header">Profile</string>
+    <string name="text_label_username">Username</string>
+    <string name="text_label_email">Email</string>
+    <string name="text_label_phone_number">Phone Number</string>
 </resources>
