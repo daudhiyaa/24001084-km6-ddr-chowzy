@@ -2,11 +2,13 @@ package com.example.chowzy.data.repository.cart
 
 import com.example.chowzy.data.model.Cart
 import com.example.chowzy.data.model.Menu
+import com.example.chowzy.data.model.PriceItem
 import com.example.chowzy.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
     fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>>
+    fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>,List<PriceItem>, Double>>>
 
     fun createCart(
         product: Menu,

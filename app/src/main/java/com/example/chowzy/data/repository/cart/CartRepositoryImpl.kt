@@ -5,6 +5,7 @@ import com.example.chowzy.data.mapper.toCartEntity
 import com.example.chowzy.data.mapper.toCartList
 import com.example.chowzy.data.model.Cart
 import com.example.chowzy.data.model.Menu
+import com.example.chowzy.data.model.PriceItem
 import com.example.chowzy.data.source.local.database.entity.CartEntity
 import com.example.chowzy.utils.ResultWrapper
 import com.example.chowzy.utils.proceed
@@ -37,21 +38,43 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
             }
     }
 
+    override fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>> {
+        return cartDataSource.getAllCarts()
+            .map {
+                // mapping into cart list and sum the total price
+                proceed {
+                    val result = it.toCartList()
+                    val priceItemList = result.map {
+                        PriceItem(it.productName, it.productPrice * it.itemQuantity)
+                    }
+                    val totalPrice = priceItemList.sumOf { it.total }
+                    Triple(result, priceItemList, totalPrice)
+                }
+            }.map {
+                // map to check when list is empty
+                if (it.payload?.first?.isEmpty() == false) return@map it
+                ResultWrapper.Empty(it.payload)
+            }.onStart {
+                emit(ResultWrapper.Loading())
+                delay(2000)
+            }
+    }
+
     override fun createCart(
-        food: Menu,
+        menu: Menu,
         quantity: Int,
         notes: String?
     ): Flow<ResultWrapper<Boolean>> {
-        return food.id?.let { foodId ->
+        return menu.id?.let { menuId ->
             // when id is not null
             proceedFlow {
                 val affectedRow = cartDataSource.insertCart(
                     CartEntity(
-                        productId = foodId,
+                        productId = menuId,
                         itemQuantity = quantity,
-                        productName = food.name,
-                        productPrice = food.price,
-                        productImgUrl = food.imgUrl,
+                        productName = menu.name,
+                        productPrice = menu.price,
+                        productImgUrl = menu.imgUrl,
                         itemNotes = notes
                     )
                 )
@@ -59,7 +82,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
             }
         } ?: flow {
             // when id is not exist
-            emit(ResultWrapper.Error(IllegalStateException("Product Id not found")))
+            emit(ResultWrapper.Error(IllegalStateException("Product not found")))
         }
     }
 
