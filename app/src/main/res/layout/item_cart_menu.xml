@@ -86,7 +86,6 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/et_notes_item"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

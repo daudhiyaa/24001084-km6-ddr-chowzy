@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 
 class CartViewModel(private val cartRepository: CartRepository): ViewModel() {
     fun getAllCarts() = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
-    val cartList = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
     fun decreaseCart(item: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.decreaseCart(item).collect()

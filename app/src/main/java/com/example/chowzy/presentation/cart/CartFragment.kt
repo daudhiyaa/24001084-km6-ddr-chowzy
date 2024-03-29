@@ -17,8 +17,8 @@ import com.example.chowzy.data.repository.cart.CartRepositoryImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.databinding.FragmentCartBinding
 import com.example.chowzy.presentation.checkout.CheckoutActivity
-import com.example.chowzy.presentation.common.adapter.CartListAdapter
-import com.example.chowzy.presentation.common.adapter.CartListener
+import com.example.chowzy.presentation.cart.adapter.CartListAdapter
+import com.example.chowzy.presentation.cart.adapter.CartListener
 import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.hideKeyboard
 import com.example.chowzy.utils.proceedWhen
@@ -85,6 +85,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.pbLoading.isVisible = true
                     binding.layoutState.tvError.isVisible = false
                     binding.rvCart.isVisible = false
+                    binding.btnCheckout.isEnabled = false
                 },
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
@@ -95,8 +96,8 @@ class CartFragment : Fragment() {
                         // set list cart data
                         adapter.submitData(carts)
                         binding.tvTotalPrice.text = totalPrice.toRupiahFormat()
-
                     }
+                    binding.btnCheckout.isEnabled = true
                 },
                 doOnError = {
                     binding.layoutState.root.isVisible = true
@@ -104,6 +105,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.isVisible = true
                     binding.layoutState.tvError.text = result.exception?.message.orEmpty()
                     binding.rvCart.isVisible = false
+                    binding.btnCheckout.isEnabled = false
                 },
                 doOnEmpty = {
                     binding.layoutState.root.isVisible = true
@@ -114,14 +116,13 @@ class CartFragment : Fragment() {
                     result.payload?.let { (carts, totalPrice) ->
                         binding.tvTotalPrice.text = totalPrice.toRupiahFormat()
                     }
+                    binding.btnCheckout.isEnabled = false
                 }
             )
-
         }
     }
 
     private fun setupList() {
         binding.rvCart.adapter = this@CartFragment.adapter
     }
-
 }

@@ -20,4 +20,7 @@ interface CartRepository {
     fun increaseCart(item: Cart): Flow<ResultWrapper<Boolean>>
     fun setCartNotes(item: Cart): Flow<ResultWrapper<Boolean>>
     fun deleteCart(item: Cart): Flow<ResultWrapper<Boolean>>
+
+    suspend fun checkout(items: List<Cart>): Flow<ResultWrapper<Boolean>>
+    suspend fun deleteAll()
 }

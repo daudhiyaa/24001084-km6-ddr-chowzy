@@ -1,4 +1,4 @@
-package com.example.chowzy.presentation.common.adapter
+package com.example.chowzy.presentation.cart.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ import com.example.chowzy.data.model.Cart
 import com.example.chowzy.databinding.ItemCartMenuBinding
 import com.example.chowzy.databinding.ItemCartMenuOrderBinding
 import com.example.chowzy.utils.doneEditing
+import com.example.chowzy.utils.toRupiahFormat
 
 class CartListAdapter(private val cartListener: CartListener? = null) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -74,7 +75,7 @@ class CartViewHolder(
             }
             tvProductCount.text = item.itemQuantity.toString()
             tvProductName.text = item.productName
-            tvProductPrice.text = (item.itemQuantity * item.productPrice).toString()
+            tvProductPrice.text = item.productPrice.toRupiahFormat()
         }
     }
 
@@ -117,7 +118,7 @@ class CartOrderViewHolder(
                     item.itemQuantity.toString()
                 )
             tvProductName.text = item.productName
-            tvProductPrice.text = (item.itemQuantity * item.productPrice).toString()
+            tvProductPrice.text = item.productPrice.toRupiahFormat()
         }
     }
 

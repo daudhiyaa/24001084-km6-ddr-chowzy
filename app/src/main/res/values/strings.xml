@@ -27,4 +27,17 @@
     <string name="text_hint_notes">Add Notes</string>
     <string name="total_quantity">x%s</string>
     <string name="text_cart_header">Your Cart</string>
+    <string name="text_title_order_confirmation">Order Confirmation</string>
+    <string name="text_label_total_price">Total Price</string>
+    <string name="text_checkout">Checkout</string>
+    <string name="text_delivery_method">Delivery Method</string>
+    <string name="text_pick_up">Pick Up</string>
+    <string name="text_delivery">Delivery</string>
+    <string name="text_payment_method">Payment Method</string>
+    <string name="text_cod">COD</string>
+    <string name="text_e_wallet">E-Wallet</string>
+    <string name="text_order_summary">Order Summary</string>
+    <string name="failed_to_checkout">Failed to Checkout</string>
+    <string name="text_payment_success">Payment Success</string>
+    <string name="text_back_to_home">Back to Home</string>
 </resources>

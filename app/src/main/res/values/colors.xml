@@ -1,6 +1,9 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="grey_border">#CCC3C3C3</color>
+    <color name="grey_background">#CCEDEDED</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <color name="seed">#007fb0</color>
     <color name="md_theme_light_primary">#00658D</color>
