@@ -30,7 +30,7 @@
                 android:src="@drawable/ic_minus" />
 
             <TextView
-                android:id="@+id/tv_qty_food"
+                android:id="@+id/tv_qty_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"

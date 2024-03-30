@@ -10,7 +10,7 @@ import com.example.chowzy.data.model.Menu
 import com.example.chowzy.databinding.ItemMenuBinding
 import com.example.chowzy.databinding.ItemMenuGridBinding
 
-class FoodsAdapter(
+class MenusAdapter(
     private val listMode: Int = MODE_LIST,
     private val listener: OnItemClickedListener<Menu>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -23,7 +23,7 @@ class FoodsAdapter(
         this,
         object : DiffUtil.ItemCallback<Menu>() {
             override fun areItemsTheSame(oldItem: Menu, newItem: Menu): Boolean {
-                return oldItem.name == newItem.name
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Menu, newItem: Menu): Boolean {

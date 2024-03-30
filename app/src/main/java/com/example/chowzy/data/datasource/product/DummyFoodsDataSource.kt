@@ -2,8 +2,8 @@ package com.example.chowzy.data.datasource.product
 
 import com.example.chowzy.data.model.Menu
 
-class DummyFoodsDataSource : FoodsDataSource {
-    override fun getFoods(): List<Menu> {
+class DummyMenusDataSource : MenusDataSource {
+    override fun getMenus(): List<Menu> {
         return mutableListOf(
             Menu(
                 name = "Cheese Burger",
@@ -31,7 +31,7 @@ class DummyFoodsDataSource : FoodsDataSource {
                 imgUrl = "https://github.com/daudhiyaa/chowzy-assets/blob/main/product_img/food_french_fries.jpg?raw=true",
                 price = 10000.0,
                 desc = "Crispy golden French fries seasoned with salt, served hot and delicious.",
-                location = "Fast Food Restaurant, 101 Pine St"
+                location = "Fast Menu Restaurant, 101 Pine St"
             ),
             Menu(
                 name = "Fried Chicken",

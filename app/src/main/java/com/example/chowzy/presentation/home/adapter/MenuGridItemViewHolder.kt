@@ -14,11 +14,11 @@ class MenuGridItemViewHolder(
     ViewHolderBinder<Menu> {
     override fun bind(item: Menu) {
         item.let {
-            binding.ivFoodImage.load(it.imgUrl) {
+            binding.ivMenuImage.load(it.imgUrl) {
                 crossfade(true)
             }
-            binding.tvFoodName.text = it.name
-            binding.tvFoodPrice.text = it.price.toRupiahFormat()
+            binding.tvMenuName.text = it.name
+            binding.tvMenuPrice.text = it.price.toRupiahFormat()
 
             itemView.setOnClickListener {
                 listener.onItemClicked(item)

@@ -40,7 +40,7 @@ class DetailMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel.food?.let { bindDetailFood(it) }
+        viewModel.menu?.let { bindDetailMenu(it) }
         setClickListener()
         observeData()
     }
@@ -65,12 +65,12 @@ class DetailMenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindDetailFood(data: Menu) {
+    private fun bindDetailMenu(data: Menu) {
         /* DETAIL FOOD */
-        binding.layoutDetailContent.layoutDetailFood.let {
-            it.tvDetailFoodName.text = data.name
-            it.tvDetailFoodPrice.text = data.price.toRupiahFormat()
-            it.tvDetailFoodDesc.text = data.desc
+        binding.layoutDetailContent.layoutDetailMenu.let {
+            it.tvDetailMenuName.text = data.name
+            it.tvDetailMenuPrice.text = data.price.toRupiahFormat()
+            it.tvDetailMenuDesc.text = data.desc
         }
 
         /* DETAIL BANNER */
@@ -88,8 +88,8 @@ class DetailMenuActivity : AppCompatActivity() {
             binding.layoutAddToCart.btnAddToCart.text =
                 getString(R.string.add_to_cart_btn, it.toRupiahFormat())
         }
-        viewModel.foodQtyLiveData.observe(this) {
-            binding.layoutAddToCart.tvQtyFood.text = it.toString()
+        viewModel.menuQtyLiveData.observe(this) {
+            binding.layoutAddToCart.tvQtyMenu.text = it.toString()
         }
     }
 
@@ -121,9 +121,9 @@ class DetailMenuActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRAS_ITEM = "EXTRAS_ITEM"
-        fun startActivity(context: Context, food: Menu) {
+        fun startActivity(context: Context, menu: Menu) {
             val intent = Intent(context, DetailMenuActivity::class.java)
-            intent.putExtra(EXTRAS_ITEM, food)
+            intent.putExtra(EXTRAS_ITEM, menu)
             context.startActivity(intent)
         }
     }

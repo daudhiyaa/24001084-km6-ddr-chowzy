@@ -15,9 +15,9 @@ class DetailMenuViewModel(
     private val extras: Bundle?,
     private val cartRepository : CartRepository,
 ) : ViewModel() {
-    val food = extras?.getParcelable<Menu>(DetailMenuActivity.EXTRAS_ITEM)
+    val menu = extras?.getParcelable<Menu>(DetailMenuActivity.EXTRAS_ITEM)
 
-    val foodQtyLiveData = MutableLiveData(0).apply {
+    val menuQtyLiveData = MutableLiveData(0).apply {
         postValue(0)
     }
 
@@ -26,22 +26,22 @@ class DetailMenuViewModel(
     }
 
     fun add() {
-        val count = (foodQtyLiveData.value ?: 0) + 1
-        foodQtyLiveData.postValue(count)
-        totalPriceLiveData.postValue(food?.price?.times(count) ?: 0.0)
+        val count = (menuQtyLiveData.value ?: 0) + 1
+        menuQtyLiveData.postValue(count)
+        totalPriceLiveData.postValue(menu?.price?.times(count) ?: 0.0)
     }
 
     fun minus() {
-        if ((foodQtyLiveData.value ?: 0) > 0) {
-            val count = (foodQtyLiveData.value ?: 0) - 1
-            foodQtyLiveData.postValue(count)
-            totalPriceLiveData.postValue(food?.price?.times(count) ?: 0.0)
+        if ((menuQtyLiveData.value ?: 0) > 0) {
+            val count = (menuQtyLiveData.value ?: 0) - 1
+            menuQtyLiveData.postValue(count)
+            totalPriceLiveData.postValue(menu?.price?.times(count) ?: 0.0)
         }
     }
 
     fun addToCart() : LiveData<ResultWrapper<Boolean>>{
-        return food?.let {
-            val qty = foodQtyLiveData.value ?: 0
+        return menu?.let {
+            val qty = menuQtyLiveData.value ?: 0
             cartRepository.createCart(it, qty).asLiveData(Dispatchers.IO)
         } ?: liveData { emit(ResultWrapper.Error(IllegalStateException("Product not found"))) }
     }

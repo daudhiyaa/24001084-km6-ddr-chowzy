@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textAlignment="center"
-            tools:text="Category Food" />
+            tools:text="Category Menu" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

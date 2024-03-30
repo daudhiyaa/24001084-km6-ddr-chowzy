@@ -13,7 +13,7 @@
         android:layout_margin="8dp">
 
         <ImageView
-            android:id="@+id/iv_food_image"
+            android:id="@+id/iv_menu_image"
             android:layout_width="0dp"
             android:layout_height="60dp"
             app:layout_constraintDimensionRatio="1:1"
@@ -23,27 +23,27 @@
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/tv_food_name"
+            android:id="@+id/tv_menu_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            tools:text="@string/food_name_placeholder"
+            tools:text="@string/menu_name_placeholder"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_food_image"
+            app:layout_constraintStart_toEndOf="@+id/iv_menu_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_food_price"
+            android:id="@+id/tv_menu_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            tools:text="@string/food_price_placeholder"
+            tools:text="@string/menu_price_placeholder"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_food_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_food_name" />
+            app:layout_constraintStart_toEndOf="@+id/iv_menu_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_menu_name" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
