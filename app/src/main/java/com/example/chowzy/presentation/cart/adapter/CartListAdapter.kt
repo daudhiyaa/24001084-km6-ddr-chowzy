@@ -75,7 +75,7 @@ class CartViewHolder(
             }
             tvProductCount.text = item.itemQuantity.toString()
             tvProductName.text = item.productName
-            tvProductPrice.text = item.productPrice.toRupiahFormat()
+            tvProductPrice.text = (item.productPrice * item.itemQuantity).toRupiahFormat()
         }
     }
 
