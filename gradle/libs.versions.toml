@@ -9,6 +9,7 @@ appcompat = "1.6.1"
 material = "1.11.0"
 activity = "1.8.2"
 constraintlayout = "2.1.4"
+
 coil = "2.6.0"
 lifecycle = "2.7.0"
 fragment-ktx = "1.6.2"
@@ -17,6 +18,9 @@ navigationUiKtx = "2.7.7"
 room = "2.6.1"
 ksp = "1.9.10-1.0.13"
 coroutine = "1.7.3"
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+okhttp-interceptor = "4.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +53,12 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 #coroutine
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
 coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+
+# retrofit
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref="okhttp"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
