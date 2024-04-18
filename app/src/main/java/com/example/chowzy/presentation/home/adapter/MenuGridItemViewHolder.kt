@@ -9,7 +9,7 @@ import com.example.chowzy.utils.toRupiahFormat
 
 class MenuGridItemViewHolder(
     private val binding: ItemMenuGridBinding,
-    private val listener: OnItemClickedListener<Menu>
+    private val itemClick: (Menu) -> Unit
 ) : RecyclerView.ViewHolder(binding.root),
     ViewHolderBinder<Menu> {
     override fun bind(item: Menu) {
@@ -21,7 +21,7 @@ class MenuGridItemViewHolder(
             binding.tvMenuPrice.text = it.price.toRupiahFormat()
 
             itemView.setOnClickListener {
-                listener.onItemClicked(item)
+                itemClick(item)
             }
         }
     }

@@ -7,11 +7,11 @@ import com.example.chowzy.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
-    fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>>
-    fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>,List<PriceItem>, Double>>>
+    fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Int>>>
+    fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>,List<PriceItem>, Int>>>
 
     fun createCart(
-        product: Menu,
+        menu: Menu,
         quantity: Int,
         notes: String? = null
     ): Flow<ResultWrapper<Boolean>>

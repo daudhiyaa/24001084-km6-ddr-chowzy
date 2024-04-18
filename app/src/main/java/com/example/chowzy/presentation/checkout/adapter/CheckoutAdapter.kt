@@ -47,7 +47,6 @@ class PriceListAdapter(private val itemClick: (PriceItem) -> Unit) :
 
     override fun getItemCount(): Int = dataDiffer.currentList.size
 
-
     class PriceItemViewHolder(
         private val binding: ItemPriceBinding,
         val itemClick: (PriceItem) -> Unit
@@ -59,8 +58,6 @@ class PriceListAdapter(private val itemClick: (PriceItem) -> Unit) :
                 binding.tvItemTitle.text = item.name
                 itemView.setOnClickListener { itemClick(this) }
             }
-
         }
     }
-
 }

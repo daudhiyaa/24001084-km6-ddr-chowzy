@@ -16,7 +16,7 @@ data class CartEntity(
     @ColumnInfo(name = "product_img_url")
     var productImgUrl: String,
     @ColumnInfo(name = "product_price")
-    var productPrice: Double,
+    var productPrice: Int,
     @ColumnInfo(name = "item_quantity")
     var itemQuantity: Int = 0,
     @ColumnInfo(name = "item_notes")

@@ -84,7 +84,7 @@ class DetailMenuActivity : AppCompatActivity() {
 
     private fun observeData() {
         viewModel.totalPriceLiveData.observe(this) {
-            binding.layoutAddToCart.btnAddToCart.isEnabled = it != 0.0
+            binding.layoutAddToCart.btnAddToCart.isEnabled = it != 0
             binding.layoutAddToCart.btnAddToCart.text =
                 getString(R.string.add_to_cart_btn, it.toRupiahFormat())
         }

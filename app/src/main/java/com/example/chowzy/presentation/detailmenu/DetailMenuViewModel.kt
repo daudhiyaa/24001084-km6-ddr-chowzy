@@ -21,21 +21,21 @@ class DetailMenuViewModel(
         postValue(0)
     }
 
-    val totalPriceLiveData = MutableLiveData<Double>().apply {
-        postValue(0.0)
+    val totalPriceLiveData = MutableLiveData<Int>().apply {
+        postValue(0)
     }
 
     fun add() {
         val count = (menuQtyLiveData.value ?: 0) + 1
         menuQtyLiveData.postValue(count)
-        totalPriceLiveData.postValue(menu?.price?.times(count) ?: 0.0)
+        totalPriceLiveData.postValue(menu?.price?.times(count) ?: 0)
     }
 
     fun minus() {
         if ((menuQtyLiveData.value ?: 0) > 0) {
             val count = (menuQtyLiveData.value ?: 0) - 1
             menuQtyLiveData.postValue(count)
-            totalPriceLiveData.postValue(menu?.price?.times(count) ?: 0.0)
+            totalPriceLiveData.postValue(menu?.price?.times(count) ?: 0)
         }
     }
 

@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
 class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepository {
-    override fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>> {
+    override fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Int>>> {
         return cartDataSource.getAllCarts()
             .map {
                 // mapping into cartlist and sum into total price
@@ -38,7 +38,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
             }
     }
 
-    override fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Double>>> {
+    override fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<PriceItem>, Int>>> {
         return cartDataSource.getAllCarts()
             .map {
                 // mapping into cart list and sum the total price
@@ -78,6 +78,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                         itemNotes = notes
                     )
                 )
+                delay(500)
                 affectedRow > 0
             }
         } ?: flow {

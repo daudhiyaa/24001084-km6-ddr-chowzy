@@ -125,7 +125,6 @@ class CartOrderViewHolder(
     private fun setCartNotes(item: Cart) {
         binding.tvNotes.text = item.itemNotes
     }
-
 }
 
 interface CartListener {

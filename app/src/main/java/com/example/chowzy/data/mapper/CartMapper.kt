@@ -8,7 +8,7 @@ fun Cart?.toCartEntity() = CartEntity(
     productId = this?.productId.orEmpty(),
     itemQuantity = this?.itemQuantity ?: 0,
     productName = this?.productName.orEmpty(),
-    productPrice = this?.productPrice ?: 0.0,
+    productPrice = this?.productPrice ?: 0,
     productImgUrl = this?.productImgUrl.orEmpty(),
     itemNotes = this?.itemNotes
 )
@@ -18,7 +18,7 @@ fun CartEntity?.toCart() = Cart(
     productId = this?.productId.orEmpty(),
     itemQuantity = this?.itemQuantity ?: 0,
     productName = this?.productName.orEmpty(),
-    productPrice = this?.productPrice ?: 0.0,
+    productPrice = this?.productPrice ?: 0,
     productImgUrl = this?.productImgUrl.orEmpty(),
     itemNotes = this?.itemNotes
 )

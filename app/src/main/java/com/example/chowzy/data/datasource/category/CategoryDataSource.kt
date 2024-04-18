@@ -1,7 +1,7 @@
 package com.example.chowzy.data.datasource.category
 
-import com.example.chowzy.data.model.Category
+import com.example.chowzy.data.source.network.model.category.CategoriesResponse
 
 interface CategoryDataSource {
-    fun getCategories(): List<Category>
+    suspend fun getCategoryData(): CategoriesResponse
 }
