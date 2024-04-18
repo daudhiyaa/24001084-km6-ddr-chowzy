@@ -1,14 +1,14 @@
 package com.example.chowzy.presentation.checkout
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
-import android.app.AlertDialog
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.chowzy.R
@@ -18,8 +18,8 @@ import com.example.chowzy.data.repository.cart.CartRepository
 import com.example.chowzy.data.repository.cart.CartRepositoryImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.databinding.ActivityCheckoutBinding
-import com.example.chowzy.presentation.checkout.adapter.PriceListAdapter
 import com.example.chowzy.presentation.cart.adapter.CartListAdapter
+import com.example.chowzy.presentation.checkout.adapter.PriceListAdapter
 import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
 import com.example.chowzy.utils.toRupiahFormat

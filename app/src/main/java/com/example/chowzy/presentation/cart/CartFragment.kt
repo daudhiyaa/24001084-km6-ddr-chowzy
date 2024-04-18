@@ -16,9 +16,9 @@ import com.example.chowzy.data.repository.cart.CartRepository
 import com.example.chowzy.data.repository.cart.CartRepositoryImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.databinding.FragmentCartBinding
-import com.example.chowzy.presentation.checkout.CheckoutActivity
 import com.example.chowzy.presentation.cart.adapter.CartListAdapter
 import com.example.chowzy.presentation.cart.adapter.CartListener
+import com.example.chowzy.presentation.checkout.CheckoutActivity
 import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.hideKeyboard
 import com.example.chowzy.utils.proceedWhen
