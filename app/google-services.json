@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "434897802954",
+    "project_id": "chowzy-binar-km6",
+    "storage_bucket": "chowzy-binar-km6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434897802954:android:8985b95df19ce918eec633",
+        "android_client_info": {
+          "package_name": "com.example.chowzy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqxM94f5EzDeBigtUrJ9ndYBW7VMTDbKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
