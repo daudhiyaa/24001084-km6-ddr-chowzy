@@ -71,7 +71,6 @@ class CheckoutActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupList()
         setClickListeners()
-        observeCheckoutResult()
         observeData()
     }
 
@@ -103,7 +102,7 @@ class CheckoutActivity : AppCompatActivity() {
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
                     binding.layoutState.pbLoading.isVisible = false
-//                    viewModel.removeAllCart()
+                    viewModel.removeAllCart()
                     showDialog(this)
                 },
                 doOnError = {
