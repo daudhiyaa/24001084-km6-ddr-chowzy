@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.chowzy.R
+import com.example.chowzy.data.datasource.auth.AuthDataSource
+import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
 import com.example.chowzy.data.datasource.category.CategoryApiDataSource
 import com.example.chowzy.data.datasource.menu.MenuApiDataSource
 import com.example.chowzy.data.model.Category
@@ -17,6 +19,10 @@ import com.example.chowzy.data.repository.category.CategoryRepository
 import com.example.chowzy.data.repository.category.CategoryRepositoryImpl
 import com.example.chowzy.data.repository.menu.MenuRepository
 import com.example.chowzy.data.repository.menu.MenuRepositoryImpl
+import com.example.chowzy.data.repository.user.UserRepository
+import com.example.chowzy.data.repository.user.UserRepositoryImpl
+import com.example.chowzy.data.source.firebase.FirebaseServices
+import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.data.source.local.preference.UserPreferenceImpl
 import com.example.chowzy.data.source.network.services.RestaurantApiService
 import com.example.chowzy.databinding.FragmentHomeBinding
@@ -25,7 +31,6 @@ import com.example.chowzy.presentation.home.adapter.CategoryAdapter
 import com.example.chowzy.presentation.home.adapter.MenuAdapter
 import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
-
 
 class HomeFragment : Fragment() {
 
@@ -37,10 +42,16 @@ class HomeFragment : Fragment() {
         val menuRepository: MenuRepository = MenuRepositoryImpl(menuDataSource)
         val categoryDataSource = CategoryApiDataSource(service)
         val categoryRepository: CategoryRepository = CategoryRepositoryImpl(categoryDataSource)
+
+        val firebaseService: FirebaseServices = FirebaseServicesImpl()
+        val authDataSource: AuthDataSource = FirebaseAuthDataSource(firebaseService)
+        val userRepository: UserRepository = UserRepositoryImpl(authDataSource)
+
         GenericViewModelFactory.create(
             HomeViewModel(
                 categoryRepository,
                 menuRepository,
+                userRepository,
                 userPreference
             )
         )
@@ -68,6 +79,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUserName()
         setupCategory()
         setupMenu()
         bindBanner()
@@ -75,6 +87,15 @@ class HomeFragment : Fragment() {
         getCategoryData()
         getMenuData(null)
         setClickAction()
+    }
+
+    private fun setUserName() {
+        if (viewModel.isLoggedIn()) {
+            val username = viewModel.getCurrentUser()?.name
+            binding.layoutHeader.tvGreeting.text = getString(R.string.hi_name, username)
+        } else {
+            binding.layoutHeader.tvGreeting.text = getString(R.string.hi_guest)
+        }
     }
 
     private fun setClickAction() {
@@ -152,7 +173,7 @@ class HomeFragment : Fragment() {
         categoryAdapter.submitData(data)
     }
 
-    private fun bindMenuList(data : List<Menu>) {
+    private fun bindMenuList(data: List<Menu>) {
         menuAdapter.submitData(data)
     }
 

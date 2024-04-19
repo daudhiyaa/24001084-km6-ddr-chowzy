@@ -2,7 +2,7 @@
     <string name="app_name">Chowzy</string>
     <string name="institut_teknologi_sepuluh_nopember">Institut Teknologi Sepuluh Nopember</string>
     <string name="my_name">Daud Dhiya\' Rozaan</string>
-    <string name="hi_name">Hi, Daud!</string>
+    <string name="hi_daud">Hi, Daud!</string>
     <string name="what_you_gonna_eat_this_day">What you gonna eat this day?</string>
     <string name="banner_title">Solo Culinary</string>
     <string name="banner_desc">Up to 50% Discount</string>
@@ -57,4 +57,11 @@
     <string name="password_confirmation">Password Confirmation</string>
     <string name="have_an_account">Have an account?</string>
     <string name="welcome">Welcome!</string>
+    <string name="register_success">Register Success</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="login_success">Login Success</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="logout">Logout</string>
+    <string name="hi_name">Hi, %1$s!</string>
+    <string name="hi_guest">Hi, Guest!</string>
 </resources>

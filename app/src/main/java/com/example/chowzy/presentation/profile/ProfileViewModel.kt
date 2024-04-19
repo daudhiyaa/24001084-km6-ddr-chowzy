@@ -1,23 +1,23 @@
 package com.example.chowzy.presentation.profile
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.chowzy.data.model.Profile
+import com.example.chowzy.data.repository.user.UserRepository
 
-class ProfileViewModel : ViewModel() {
-    val profileData = MutableLiveData(
-        Profile(
-            name = "Daud Dhiya'",
-            username = "daudhiyaa",
-            email = "daud.dhiya31@gmail.com",
-            profileImg = "https://avatars.githubusercontent.com/u/90663569?v=4"
-        )
-    )
+class ProfileViewModel(private val repository: UserRepository) : ViewModel() {
+    private val _isEditMode = MutableLiveData(false)
+    val isEditMode: LiveData<Boolean>
+        get() = _isEditMode
 
-    val isEditMode = MutableLiveData(false)
+    fun getProfile() = repository.getCurrentUser()
 
     fun changeEditMode() {
         val currentValue = isEditMode.value ?: false
-        isEditMode.postValue(!currentValue)
+        _isEditMode.postValue(!currentValue)
+    }
+
+    fun doLogout(): Boolean {
+        return repository.doLogout()
     }
 }

@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.chowzy.data.repository.category.CategoryRepository
 import com.example.chowzy.data.repository.menu.MenuRepository
+import com.example.chowzy.data.repository.user.UserRepository
 import com.example.chowzy.data.source.local.preference.UserPreference
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(
     private val categoryRepository: CategoryRepository,
     private val menuRepository: MenuRepository,
+    private val userRepository: UserRepository,
     private val userPreference: UserPreference
 ) : ViewModel() {
     private val _isUsingGridMode = MutableLiveData(userPreference.isUsingGridMode())
@@ -30,6 +32,10 @@ class HomeViewModel(
 
     fun getMenu(categoryName: String? = null) =
         menuRepository.getMenus(categoryName).asLiveData(Dispatchers.IO)
+
     fun getCategory() = categoryRepository.getCategories().asLiveData(Dispatchers.IO)
 
+    fun getCurrentUser() = userRepository.getCurrentUser()
+
+    fun isLoggedIn() = userRepository.isLoggedIn()
 }
