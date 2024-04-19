@@ -81,6 +81,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_selector_input"
             android:drawableStart="@drawable/ic_key"
+            style="@style/drawableIconColor"
             android:drawablePadding="8dp"
             android:ems="10"
             android:enabled="true"

@@ -33,4 +33,7 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+    <style name="drawableIconColor">
+        <item name="tint" >@color/black</item>
+    </style>
 </resources>
