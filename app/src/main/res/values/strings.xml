@@ -40,4 +40,21 @@
     <string name="failed_to_checkout">Failed to Checkout</string>
     <string name="text_payment_success">Payment Success</string>
     <string name="text_back_to_home">Back to Home</string>
+    <string name="title_input_name_user">Name</string>
+    <string name="name_user">Daud Dhiya\'</string>
+    <string name="title_password_input_profile">Password</string>
+    <string name="password">admin123</string>
+    <string name="title_email_input_profile">Email</string>
+    <string name="email">youremail@gmail.com</string>
+    <string name="title_telephone_number_input_profile">Telephone Number</string>
+    <string name="email_hint">youremail@gmail.com</string>
+    <string name="password_hint">*********</string>
+    <string name="name_hint">Your Name</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="password_confirmation">Password Confirmation</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="welcome">Welcome!</string>
 </resources>

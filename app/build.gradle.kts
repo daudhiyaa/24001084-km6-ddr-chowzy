@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.annotation)
+    implementation(libs.firebase.auth)
     ksp(libs.room.compiler)
     implementation(libs.coroutine.core)
     implementation(libs.coroutine.android)
