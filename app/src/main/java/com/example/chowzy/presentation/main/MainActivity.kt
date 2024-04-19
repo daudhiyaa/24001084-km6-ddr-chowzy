@@ -33,7 +33,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupBottomNav()
+//        testingCrashlytics()
     }
+
+//    private fun testingCrashlytics() {
+//        throw RuntimeException("Testing Crashlytics")
+//    }
 
     private fun setupBottomNav() {
         val navController = findNavController(R.id.main_nav_host)
