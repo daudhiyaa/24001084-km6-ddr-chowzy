@@ -17,13 +17,18 @@ import com.example.chowzy.data.datasource.auth.AuthDataSource
 import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
 import com.example.chowzy.data.datasource.cart.CartDataSource
 import com.example.chowzy.data.datasource.cart.CartDatabaseDataSource
+import com.example.chowzy.data.datasource.menu.MenuApiDataSource
+import com.example.chowzy.data.datasource.menu.MenuDataSource
 import com.example.chowzy.data.repository.cart.CartRepository
 import com.example.chowzy.data.repository.cart.CartRepositoryImpl
+import com.example.chowzy.data.repository.menu.MenuRepository
+import com.example.chowzy.data.repository.menu.MenuRepositoryImpl
 import com.example.chowzy.data.repository.user.UserRepository
 import com.example.chowzy.data.repository.user.UserRepositoryImpl
 import com.example.chowzy.data.source.firebase.FirebaseServices
 import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
+import com.example.chowzy.data.source.network.services.RestaurantApiService
 import com.example.chowzy.databinding.ActivityCheckoutBinding
 import com.example.chowzy.presentation.auth.login.LoginActivity
 import com.example.chowzy.presentation.cart.adapter.CartListAdapter
@@ -36,15 +41,22 @@ class CheckoutActivity : AppCompatActivity() {
     private val binding: ActivityCheckoutBinding by lazy {
         ActivityCheckoutBinding.inflate(layoutInflater)
     }
+
     private val viewModel: CheckoutViewModel by viewModels {
-        val service: FirebaseServices = FirebaseServicesImpl()
-        val firebaseDataSource: AuthDataSource = FirebaseAuthDataSource(service)
+        val firebaseService: FirebaseServices = FirebaseServicesImpl()
+        val firebaseDataSource: AuthDataSource = FirebaseAuthDataSource(firebaseService)
         val firebaseRepo: UserRepository = UserRepositoryImpl(firebaseDataSource)
-        val db = AppDatabase.getInstance(this)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val cartRepo: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(CheckoutViewModel(cartRepo, firebaseRepo))
+
+        val appDB = AppDatabase.getInstance(this)
+        val cartDataSource: CartDataSource = CartDatabaseDataSource(appDB.cartDao())
+        val cartRepo: CartRepository = CartRepositoryImpl(cartDataSource)
+
+        val apiService = RestaurantApiService.invoke()
+        val menuDataSource: MenuDataSource = MenuApiDataSource(apiService)
+        val menuRepo: MenuRepository = MenuRepositoryImpl(menuDataSource)
+        GenericViewModelFactory.create(CheckoutViewModel(cartRepo, firebaseRepo, menuRepo))
     }
+
     private val adapter: CartListAdapter by lazy {
         CartListAdapter()
     }
@@ -58,9 +70,14 @@ class CheckoutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupList()
-        observeData()
         setClickListeners()
         observeCheckoutResult()
+        observeData()
+    }
+
+    private fun setupList() {
+        binding.layoutContent.rvCart.adapter = adapter
+        binding.layoutContent.rvShoppingSummary.adapter = priceItemAdapter
     }
 
     private fun setClickListeners() {
@@ -69,7 +86,7 @@ class CheckoutActivity : AppCompatActivity() {
         }
         binding.btnCheckout.setOnClickListener {
             if (viewModel.isLoggedIn()) {
-                viewModel.checkout()
+                observeCheckoutResult()
             } else {
                 navigateToLogin()
             }
@@ -80,62 +97,14 @@ class CheckoutActivity : AppCompatActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
     }
 
-    private fun setupList() {
-        binding.layoutContent.rvCart.adapter = adapter
-        binding.layoutContent.rvShoppingSummary.adapter = priceItemAdapter
-    }
-
-    private fun observeData() {
-        viewModel.checkoutData.observe(this) { result ->
-            result.proceedWhen(doOnSuccess = {
-                binding.layoutState.root.isVisible = false
-                binding.layoutState.pbLoading.isVisible = false
-                binding.layoutState.tvError.isVisible = false
-                binding.layoutContent.root.isVisible = true
-                binding.layoutContent.rvCart.isVisible = true
-                binding.cvSectionOrder.isVisible = true
-                result.payload?.let { (carts, priceItems, totalPrice) ->
-                    adapter.submitData(carts)
-                    binding.tvTotalPrice.text = totalPrice.toRupiahFormat()
-                    priceItemAdapter.submitData(priceItems)
-                }
-            }, doOnLoading = {
-                binding.layoutState.root.isVisible = true
-                binding.layoutState.pbLoading.isVisible = true
-                binding.layoutState.tvError.isVisible = false
-                binding.layoutContent.root.isVisible = false
-                binding.layoutContent.rvCart.isVisible = false
-                binding.cvSectionOrder.isVisible = false
-            }, doOnError = {
-                binding.layoutState.root.isVisible = true
-                binding.layoutState.pbLoading.isVisible = false
-                binding.layoutState.tvError.isVisible = true
-                binding.layoutState.tvError.text = result.exception?.message.orEmpty()
-                binding.layoutContent.root.isVisible = false
-                binding.layoutContent.rvCart.isVisible = false
-                binding.cvSectionOrder.isVisible = false
-            }, doOnEmpty = { data ->
-                binding.layoutState.root.isVisible = true
-                binding.layoutState.pbLoading.isVisible = false
-                binding.layoutState.tvError.isVisible = true
-                binding.layoutState.tvError.text = getString(R.string.text_cart_is_empty)
-                data.payload?.let { (_, _, totalPrice) ->
-                    binding.tvTotalPrice.text = totalPrice.toRupiahFormat()
-                }
-                binding.layoutContent.root.isVisible = false
-                binding.layoutContent.rvCart.isVisible = false
-                binding.cvSectionOrder.isVisible = false
-            })
-        }
-    }
-
     private fun observeCheckoutResult() {
-        viewModel.checkoutResult.observe(this) {
+        viewModel.checkoutCart().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
                     binding.layoutState.pbLoading.isVisible = false
-                    dialogCheckoutSuccess(this)
+//                    viewModel.removeAllCart()
+                    showDialog(this)
                 },
                 doOnError = {
                     binding.layoutState.root.isVisible = false
@@ -151,7 +120,7 @@ class CheckoutActivity : AppCompatActivity() {
         }
     }
 
-    private fun dialogCheckoutSuccess(context: Context) {
+    private fun showDialog(context: Context) {
         val dialogView: View = LayoutInflater.from(context).inflate(R.layout.dialog_checkout, null)
         val finishBtn = dialogView.findViewById<Button>(R.id.btn_back_home)
         val alertDialogBuilder = AlertDialog.Builder(context)
@@ -163,5 +132,51 @@ class CheckoutActivity : AppCompatActivity() {
             dialog.dismiss()
         }
         alertDialogBuilder.show()
+    }
+
+    private fun observeData() {
+        viewModel.checkoutData.observe(this) { result ->
+            result.proceedWhen(
+                doOnSuccess = {
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutContent.root.isVisible = true
+                    binding.layoutContent.rvCart.isVisible = true
+                    binding.cvSectionOrder.isVisible = true
+                    result.payload?.let { (carts, priceItems, totalPrice) ->
+                        adapter.submitData(carts)
+                        binding.tvTotalPrice.text = totalPrice.toRupiahFormat()
+                        priceItemAdapter.submitData(priceItems)
+                    }
+                }, doOnLoading = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = true
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutContent.root.isVisible = false
+                    binding.layoutContent.rvCart.isVisible = false
+                    binding.cvSectionOrder.isVisible = false
+                }, doOnError = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = true
+                    binding.layoutState.tvError.text = result.exception?.message.orEmpty()
+                    binding.layoutContent.root.isVisible = false
+                    binding.layoutContent.rvCart.isVisible = false
+                    binding.cvSectionOrder.isVisible = false
+                }, doOnEmpty = { data ->
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = true
+                    binding.layoutState.tvError.text = getString(R.string.text_cart_is_empty)
+                    data.payload?.let { (_, _, totalPrice) ->
+                        binding.tvTotalPrice.text = totalPrice.toRupiahFormat()
+                    }
+                    binding.layoutContent.root.isVisible = false
+                    binding.layoutContent.rvCart.isVisible = false
+                    binding.cvSectionOrder.isVisible = false
+                }
+            )
+        }
     }
 }
