@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_tab_profile -> {
                     if(!viewModel.isLoggedIn()){
                         navigateToLogin()
-                        controller.navigate(R.id.menu_tab_home)
+                        controller.popBackStack(R.id.menu_tab_home, false)
                     }
                 }
             }
