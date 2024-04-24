@@ -2,32 +2,20 @@ package com.example.chowzy.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.auth.AuthDataSource
-import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.repository.auth.AuthRepository
-import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
-import com.example.chowzy.data.source.firebase.FirebaseServices
-import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.databinding.ActivityMainBinding
 import com.example.chowzy.presentation.auth.login.LoginActivity
-import com.example.chowzy.utils.GenericViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: MainViewModel by viewModels {
-        val service: FirebaseServices = FirebaseServicesImpl()
-        val dataSource: AuthDataSource = FirebaseAuthDataSource(service)
-        val repository: AuthRepository = AuthRepositoryImpl(dataSource)
-        GenericViewModelFactory.create(MainViewModel(repository))
-    }
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, args ->
             when (destination.id) {
                 R.id.menu_tab_profile -> {
-                    if(!viewModel.isLoggedIn()){
+                    if(!mainViewModel.isLoggedIn()){
                         navigateToLogin()
                         controller.popBackStack(R.id.menu_tab_home, false)
                     }
@@ -57,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        })
     }
 }

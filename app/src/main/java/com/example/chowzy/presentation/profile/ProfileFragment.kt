@@ -6,26 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.example.chowzy.data.datasource.auth.AuthDataSource
-import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.repository.auth.AuthRepository
-import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
-import com.example.chowzy.data.source.firebase.FirebaseServices
-import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.databinding.FragmentProfileBinding
 import com.example.chowzy.presentation.auth.login.LoginActivity
-import com.example.chowzy.utils.GenericViewModelFactory
+import com.example.chowzy.presentation.main.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
 
-    private val viewModel: ProfileViewModel by viewModels {
-        val service: FirebaseServices = FirebaseServicesImpl()
-        val dataSource: AuthDataSource = FirebaseAuthDataSource(service)
-        val repository: AuthRepository = AuthRepositoryImpl(dataSource)
-        GenericViewModelFactory.create(ProfileViewModel(repository))
-    }
+    private val profileViewModel: ProfileViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +33,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun bindProfileData() {
-        val profileData = viewModel.getProfile()
+        val profileData = profileViewModel.getProfile()
         binding.etName.setText(profileData?.name)
         binding.etEmail.setText(profileData?.email)
     }
@@ -60,23 +49,23 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeEditMode() {
-        viewModel.isEditMode.observe(viewLifecycleOwner) {
+        profileViewModel.isEditMode.observe(viewLifecycleOwner) {
             setEditMode(it)
         }
     }
 
     private fun setClickListener() {
         binding.layoutProfileTopBar.ivEditProfile.setOnClickListener {
-            viewModel.changeEditMode()
+            profileViewModel.changeEditMode()
         }
         binding.btnLogout.setOnClickListener {
-            viewModel.doLogout()
-            navigateToLogin()
+            profileViewModel.doLogout()
+            navigateToMain()
         }
     }
 
-    private fun navigateToLogin() {
-        startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
+    private fun navigateToMain() {
+        startActivity(Intent(requireContext(), MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         })
     }

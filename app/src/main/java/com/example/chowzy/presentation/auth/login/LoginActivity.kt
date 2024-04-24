@@ -3,21 +3,14 @@ package com.example.chowzy.presentation.auth.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.auth.AuthDataSource
-import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.repository.auth.AuthRepository
-import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
-import com.example.chowzy.data.source.firebase.FirebaseServices
-import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.databinding.ActivityLoginBinding
 import com.example.chowzy.presentation.auth.register.RegisterActivity
 import com.example.chowzy.presentation.main.MainActivity
-import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,12 +18,7 @@ class LoginActivity : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: LoginViewModel by viewModels {
-        val service: FirebaseServices = FirebaseServicesImpl()
-        val dataSource: AuthDataSource = FirebaseAuthDataSource(service)
-        val repository: AuthRepository = AuthRepositoryImpl(dataSource)
-        GenericViewModelFactory.create(LoginViewModel(repository))
-    }
+    private val loginViewModel: LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun doLogin(email: String, password: String) {
-        viewModel.doLogin(email, password).observe(this) { result ->
+        loginViewModel.doLogin(email, password).observe(this) { result ->
             result.proceedWhen(
                 doOnSuccess = {
                     binding.layoutLoginForm.pbLogin.isVisible = false

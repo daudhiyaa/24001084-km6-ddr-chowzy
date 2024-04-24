@@ -9,53 +9,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.auth.AuthDataSource
-import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.datasource.cart.CartDataSource
-import com.example.chowzy.data.datasource.cart.CartDatabaseDataSource
-import com.example.chowzy.data.datasource.menu.MenuApiDataSource
-import com.example.chowzy.data.datasource.menu.MenuDataSource
-import com.example.chowzy.data.repository.cart.CartRepository
-import com.example.chowzy.data.repository.cart.CartRepositoryImpl
-import com.example.chowzy.data.repository.menu.MenuRepository
-import com.example.chowzy.data.repository.menu.MenuRepositoryImpl
-import com.example.chowzy.data.repository.auth.AuthRepository
-import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
-import com.example.chowzy.data.source.firebase.FirebaseServices
-import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
-import com.example.chowzy.data.source.local.database.AppDatabase
-import com.example.chowzy.data.source.network.services.RestaurantApiService
 import com.example.chowzy.databinding.ActivityCheckoutBinding
 import com.example.chowzy.presentation.auth.login.LoginActivity
 import com.example.chowzy.presentation.cart.adapter.CartListAdapter
 import com.example.chowzy.presentation.checkout.adapter.PriceListAdapter
-import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
 import com.example.chowzy.utils.toRupiahFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CheckoutActivity : AppCompatActivity() {
     private val binding: ActivityCheckoutBinding by lazy {
         ActivityCheckoutBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: CheckoutViewModel by viewModels {
-        val firebaseService: FirebaseServices = FirebaseServicesImpl()
-        val firebaseDataSource: AuthDataSource = FirebaseAuthDataSource(firebaseService)
-        val firebaseRepo: AuthRepository = AuthRepositoryImpl(firebaseDataSource)
-
-        val appDB = AppDatabase.createInstance(this)
-        val cartDataSource: CartDataSource = CartDatabaseDataSource(appDB.cartDao())
-        val cartRepo: CartRepository = CartRepositoryImpl(cartDataSource)
-
-        val apiService = RestaurantApiService.invoke()
-        val menuDataSource: MenuDataSource = MenuApiDataSource(apiService)
-        val menuRepo: MenuRepository = MenuRepositoryImpl(menuDataSource)
-        GenericViewModelFactory.create(CheckoutViewModel(cartRepo, firebaseRepo, menuRepo))
-    }
+    private val refactorViewModel: CheckoutViewModel by viewModel()
 
     private val adapter: CartListAdapter by lazy {
         CartListAdapter()
@@ -84,7 +54,7 @@ class CheckoutActivity : AppCompatActivity() {
             onBackPressed()
         }
         binding.btnCheckout.setOnClickListener {
-            if (viewModel.isLoggedIn()) {
+            if (refactorViewModel.isLoggedIn()) {
                 observeCheckoutResult()
             } else {
                 navigateToLogin()
@@ -97,12 +67,12 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun observeCheckoutResult() {
-        viewModel.checkoutCart().observe(this) {
+        refactorViewModel.checkoutCart().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
                     binding.layoutState.pbLoading.isVisible = false
-                    viewModel.removeAllCart()
+                    refactorViewModel.removeAllCart()
                     showDialog(this)
                 },
                 doOnError = {
@@ -126,7 +96,7 @@ class CheckoutActivity : AppCompatActivity() {
         val dialog = alertDialogBuilder.create()
         alertDialogBuilder.setView(dialogView)
         finishBtn.setOnClickListener {
-            viewModel.removeAllCart()
+            refactorViewModel.removeAllCart()
             (context as? Activity)?.finish() // Make sure context is an Activity
             dialog.dismiss()
         }
@@ -134,7 +104,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        viewModel.checkoutData.observe(this) { result ->
+        refactorViewModel.checkoutData.observe(this) { result ->
             result.proceedWhen(
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false

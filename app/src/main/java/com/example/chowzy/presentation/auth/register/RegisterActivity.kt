@@ -3,21 +3,14 @@ package com.example.chowzy.presentation.auth.register
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.auth.AuthDataSource
-import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.repository.auth.AuthRepository
-import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
-import com.example.chowzy.data.source.firebase.FirebaseServices
-import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.databinding.ActivityRegisterBinding
 import com.example.chowzy.presentation.auth.login.LoginActivity
 import com.example.chowzy.presentation.main.MainActivity
-import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -25,12 +18,7 @@ class RegisterActivity : AppCompatActivity() {
         ActivityRegisterBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: RegisterViewModel by viewModels {
-        val service: FirebaseServices = FirebaseServicesImpl()
-        val dataSource: AuthDataSource = FirebaseAuthDataSource(service)
-        val repository: AuthRepository = AuthRepositoryImpl(dataSource)
-        GenericViewModelFactory.create(RegisterViewModel(repository))
-    }
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun doRegister(name: String, email: String, password: String) {
-        viewModel.doRegister(name, email, password).observe(this) { result ->
+        registerViewModel.doRegister(name, email, password).observe(this) { result ->
             result.proceedWhen(
                 doOnSuccess = {
                     binding.layoutRegisterForm.pbRegister.isVisible = false

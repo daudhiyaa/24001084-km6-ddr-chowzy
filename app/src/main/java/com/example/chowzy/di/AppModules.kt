@@ -21,12 +21,20 @@ import com.example.chowzy.data.repository.menu.MenuRepository
 import com.example.chowzy.data.repository.menu.MenuRepositoryImpl
 import com.example.chowzy.data.repository.preference.PreferenceRepository
 import com.example.chowzy.data.repository.preference.PreferenceRepositoryImpl
+import com.example.chowzy.data.source.firebase.FirebaseServices
+import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.data.source.local.database.dao.CartDao
 import com.example.chowzy.data.source.network.services.RestaurantApiService
+import com.example.chowzy.presentation.auth.login.LoginViewModel
+import com.example.chowzy.presentation.auth.register.RegisterViewModel
+import com.example.chowzy.presentation.checkout.CheckoutViewModel
 import com.example.chowzy.presentation.detailmenu.DetailMenuViewModel
 import com.example.chowzy.presentation.home.HomeViewModel
+import com.example.chowzy.presentation.main.MainViewModel
+import com.example.chowzy.presentation.profile.ProfileViewModel
 import com.example.chowzy.utils.SharedPreferenceUtils
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -38,7 +46,11 @@ object AppModules {
         single<RestaurantApiService> { RestaurantApiService.invoke() }
     }
 
-//    todo: add firebase module
+    // todo: add firebase module
+    private val firebaseModule = module {
+        single<FirebaseAuth> { FirebaseAuth.getInstance() }
+        single<FirebaseServices> { FirebaseServicesImpl(get()) }
+    }
 
     private val localModule = module {
         single<AppDatabase> { AppDatabase.createInstance(androidContext()) }
@@ -76,12 +88,18 @@ object AppModules {
                 cartRepository = get()
             )
         }
+        viewModelOf(::LoginViewModel)
+        viewModelOf(::RegisterViewModel)
+        viewModelOf(::MainViewModel)
+        viewModelOf(::CheckoutViewModel)
+        viewModelOf(::ProfileViewModel)
         // todo: add other viewmodels
     }
 
     val modules = listOf<Module>(
         networkModule,
         localModule,
+        firebaseModule,
         datasourceModule,
         repositoryModule,
         viewmodelModule
