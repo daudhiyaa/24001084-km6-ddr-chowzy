@@ -1,10 +1,10 @@
-package com.example.chowzy.data.repository.user
+package com.example.chowzy.data.repository.auth
 
 import com.example.chowzy.data.model.User
 import com.example.chowzy.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 
-interface UserRepository{
+interface AuthRepository{
     @Throws(exceptionClasses = [Exception::class])
     fun doLogin(
         email: String,

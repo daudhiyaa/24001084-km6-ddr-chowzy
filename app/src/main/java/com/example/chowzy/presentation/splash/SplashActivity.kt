@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.chowzy.data.datasource.auth.AuthDataSource
 import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.repository.user.UserRepository
-import com.example.chowzy.data.repository.user.UserRepositoryImpl
+import com.example.chowzy.data.repository.auth.AuthRepository
+import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
 import com.example.chowzy.data.source.firebase.FirebaseServices
 import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.databinding.ActivitySplashBinding
@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
     private val viewModel: SplashViewModel by viewModels {
         val service: FirebaseServices = FirebaseServicesImpl()
         val dataSource: AuthDataSource = FirebaseAuthDataSource(service)
-        val repository: UserRepository = UserRepositoryImpl(dataSource)
+        val repository: AuthRepository = AuthRepositoryImpl(dataSource)
         GenericViewModelFactory.create(SplashViewModel(repository))
     }
 

@@ -5,31 +5,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.cart.CartDataSource
-import com.example.chowzy.data.datasource.cart.CartDatabaseDataSource
 import com.example.chowzy.data.model.Menu
-import com.example.chowzy.data.repository.cart.CartRepository
-import com.example.chowzy.data.repository.cart.CartRepositoryImpl
-import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.databinding.ActivityDetailBinding
-import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
 import com.example.chowzy.utils.toRupiahFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailMenuActivity : AppCompatActivity() {
     private val urlMaps: String = "https://maps.app.goo.gl/h4wQKqaBuXzftGK77"
 
-    private val viewModel: DetailMenuViewModel by viewModels {
-        val db = AppDatabase.getInstance(this)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val cartRepo: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(
-            DetailMenuViewModel(intent?.extras, cartRepo)
-        )
+    private val viewModel: DetailMenuViewModel by viewModel {
+        parametersOf(intent.extras)
     }
 
     private val binding: ActivityDetailBinding by lazy {

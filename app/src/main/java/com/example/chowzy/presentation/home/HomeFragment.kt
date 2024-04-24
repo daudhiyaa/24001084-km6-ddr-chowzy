@@ -5,57 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.auth.AuthDataSource
-import com.example.chowzy.data.datasource.auth.FirebaseAuthDataSource
-import com.example.chowzy.data.datasource.category.CategoryApiDataSource
-import com.example.chowzy.data.datasource.menu.MenuApiDataSource
 import com.example.chowzy.data.model.Category
 import com.example.chowzy.data.model.Menu
-import com.example.chowzy.data.repository.category.CategoryRepository
-import com.example.chowzy.data.repository.category.CategoryRepositoryImpl
-import com.example.chowzy.data.repository.menu.MenuRepository
-import com.example.chowzy.data.repository.menu.MenuRepositoryImpl
-import com.example.chowzy.data.repository.user.UserRepository
-import com.example.chowzy.data.repository.user.UserRepositoryImpl
-import com.example.chowzy.data.source.firebase.FirebaseServices
-import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
-import com.example.chowzy.data.source.local.preference.UserPreferenceImpl
-import com.example.chowzy.data.source.network.services.RestaurantApiService
 import com.example.chowzy.databinding.FragmentHomeBinding
 import com.example.chowzy.presentation.detailmenu.DetailMenuActivity
 import com.example.chowzy.presentation.home.adapter.CategoryAdapter
 import com.example.chowzy.presentation.home.adapter.MenuAdapter
-import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels {
-        val service = RestaurantApiService.invoke()
-        val userPreference = UserPreferenceImpl(requireContext())
-        val menuDataSource = MenuApiDataSource(service)
-        val menuRepository: MenuRepository = MenuRepositoryImpl(menuDataSource)
-        val categoryDataSource = CategoryApiDataSource(service)
-        val categoryRepository: CategoryRepository = CategoryRepositoryImpl(categoryDataSource)
 
-        val firebaseService: FirebaseServices = FirebaseServicesImpl()
-        val authDataSource: AuthDataSource = FirebaseAuthDataSource(firebaseService)
-        val userRepository: UserRepository = UserRepositoryImpl(authDataSource)
-
-        GenericViewModelFactory.create(
-            HomeViewModel(
-                categoryRepository,
-                menuRepository,
-                userRepository,
-                userPreference
-            )
-        )
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
 
     private val categoryAdapter: CategoryAdapter by lazy {
         CategoryAdapter {
@@ -63,7 +29,7 @@ class HomeFragment : Fragment() {
         }
     }
     private val menuAdapter: MenuAdapter by lazy {
-        MenuAdapter(viewModel.getListMode()) {
+        MenuAdapter(homeViewModel.getListMode()) {
             navigateToDetail(it)
         }
     }
@@ -90,8 +56,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUserName() {
-        if (viewModel.isLoggedIn()) {
-            val username = viewModel.getCurrentUser()?.name
+        if (homeViewModel.isLoggedIn()) {
+            val username = homeViewModel.getCurrentUser()?.name
             binding.layoutHeader.tvGreeting.text = getString(R.string.hi_name, username)
         } else {
             binding.layoutHeader.tvGreeting.text = getString(R.string.hi_guest)
@@ -100,7 +66,7 @@ class HomeFragment : Fragment() {
 
     private fun setClickAction() {
         binding.ibChangeMode.setOnClickListener {
-            viewModel.changeListMode()
+            homeViewModel.changeListMode()
         }
     }
 
@@ -128,7 +94,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getMenuData(name: String? = null) {
-        viewModel.getMenu(name).observe(viewLifecycleOwner) {
+        homeViewModel.getMenu(name).observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let { data ->
@@ -140,7 +106,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCategoryData() {
-        viewModel.getCategory().observe(viewLifecycleOwner) {
+        homeViewModel.getCategory().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
                     it.payload?.let { data -> bindCategory(data) }
@@ -150,7 +116,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeGridMode() {
-        viewModel.isUsingGridMode.observe(viewLifecycleOwner) { isUsingGridMode ->
+        homeViewModel.isUsingGridMode.observe(viewLifecycleOwner) { isUsingGridMode ->
             changeBtnIcon(isUsingGridMode)
             changeLayout(isUsingGridMode)
         }

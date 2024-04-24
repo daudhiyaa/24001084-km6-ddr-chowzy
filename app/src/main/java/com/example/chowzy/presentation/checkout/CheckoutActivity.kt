@@ -23,8 +23,8 @@ import com.example.chowzy.data.repository.cart.CartRepository
 import com.example.chowzy.data.repository.cart.CartRepositoryImpl
 import com.example.chowzy.data.repository.menu.MenuRepository
 import com.example.chowzy.data.repository.menu.MenuRepositoryImpl
-import com.example.chowzy.data.repository.user.UserRepository
-import com.example.chowzy.data.repository.user.UserRepositoryImpl
+import com.example.chowzy.data.repository.auth.AuthRepository
+import com.example.chowzy.data.repository.auth.AuthRepositoryImpl
 import com.example.chowzy.data.source.firebase.FirebaseServices
 import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
@@ -45,9 +45,9 @@ class CheckoutActivity : AppCompatActivity() {
     private val viewModel: CheckoutViewModel by viewModels {
         val firebaseService: FirebaseServices = FirebaseServicesImpl()
         val firebaseDataSource: AuthDataSource = FirebaseAuthDataSource(firebaseService)
-        val firebaseRepo: UserRepository = UserRepositoryImpl(firebaseDataSource)
+        val firebaseRepo: AuthRepository = AuthRepositoryImpl(firebaseDataSource)
 
-        val appDB = AppDatabase.getInstance(this)
+        val appDB = AppDatabase.createInstance(this)
         val cartDataSource: CartDataSource = CartDatabaseDataSource(appDB.cartDao())
         val cartRepo: CartRepository = CartRepositoryImpl(cartDataSource)
 

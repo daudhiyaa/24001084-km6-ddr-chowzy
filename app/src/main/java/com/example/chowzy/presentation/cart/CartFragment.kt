@@ -28,11 +28,12 @@ class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
     private val viewModel: CartViewModel by viewModels {
-        val db = AppDatabase.getInstance(requireContext())
+        val db = AppDatabase.createInstance(requireContext())
         val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
         val rp: CartRepository = CartRepositoryImpl(ds)
         GenericViewModelFactory.create(CartViewModel(rp))
     }
+
     private val adapter: CartListAdapter by lazy {
         CartListAdapter(object : CartListener {
             override fun onPlusTotalItemCartClicked(cart: Cart) {

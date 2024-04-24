@@ -1,4 +1,4 @@
-package com.example.chowzy.data.repository.user
+package com.example.chowzy.data.repository.auth
 
 import com.example.chowzy.data.datasource.auth.AuthDataSource
 import com.example.chowzy.data.model.User
@@ -6,7 +6,7 @@ import com.example.chowzy.utils.ResultWrapper
 import com.example.chowzy.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
 
-class UserRepositoryImpl(private val dataSource: AuthDataSource): UserRepository {
+class AuthRepositoryImpl(private val dataSource: AuthDataSource): AuthRepository {
     override fun doLogin(email: String, password: String): Flow<ResultWrapper<Boolean>> {
         return proceedFlow { dataSource.doLogin(email, password) }
     }
