@@ -7,49 +7,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.example.chowzy.R
-import com.example.chowzy.data.datasource.cart.CartDataSource
-import com.example.chowzy.data.datasource.cart.CartDatabaseDataSource
 import com.example.chowzy.data.model.Cart
-import com.example.chowzy.data.repository.cart.CartRepository
-import com.example.chowzy.data.repository.cart.CartRepositoryImpl
-import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.databinding.FragmentCartBinding
+import com.example.chowzy.presentation.auth.login.LoginActivity
 import com.example.chowzy.presentation.cart.adapter.CartListAdapter
 import com.example.chowzy.presentation.cart.adapter.CartListener
 import com.example.chowzy.presentation.checkout.CheckoutActivity
-import com.example.chowzy.utils.GenericViewModelFactory
 import com.example.chowzy.utils.hideKeyboard
 import com.example.chowzy.utils.proceedWhen
 import com.example.chowzy.utils.toRupiahFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
-    private val viewModel: CartViewModel by viewModels {
-        val db = AppDatabase.createInstance(requireContext())
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(CartViewModel(rp))
-    }
+    private val cartViewModel: CartViewModel by viewModel()
 
     private val adapter: CartListAdapter by lazy {
         CartListAdapter(object : CartListener {
             override fun onPlusTotalItemCartClicked(cart: Cart) {
-                viewModel.increaseCart(cart)
+                cartViewModel.increaseCart(cart)
             }
 
             override fun onMinusTotalItemCartClicked(cart: Cart) {
-                viewModel.decreaseCart(cart)
+                cartViewModel.decreaseCart(cart)
             }
 
             override fun onRemoveCartClicked(cart: Cart) {
-                viewModel.removeCart(cart)
+                cartViewModel.removeCart(cart)
             }
 
             override fun onUserDoneEditingNotes(cart: Cart) {
-                viewModel.setCartNotes(cart)
+                cartViewModel.setCartNotes(cart)
                 hideKeyboard()
             }
 
@@ -74,12 +64,20 @@ class CartFragment : Fragment() {
 
     private fun setClickListeners() {
         binding.btnCheckout.setOnClickListener {
-            startActivity(Intent(requireContext(), CheckoutActivity::class.java))
+            if (cartViewModel.isLoggedIn()) {
+                startActivity(Intent(requireContext(), CheckoutActivity::class.java))
+            } else {
+                navigateToLogin()
+            }
         }
     }
 
+    private fun navigateToLogin() {
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
+    }
+
     private fun observeData() {
-        viewModel.getAllCarts().observe(viewLifecycleOwner) { result ->
+        cartViewModel.getAllCarts().observe(viewLifecycleOwner) { result ->
             result.proceedWhen(
                 doOnLoading = {
                     binding.layoutState.root.isVisible = true

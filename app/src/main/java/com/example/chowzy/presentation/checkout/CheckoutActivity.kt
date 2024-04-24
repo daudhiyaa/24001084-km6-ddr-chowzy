@@ -54,16 +54,8 @@ class CheckoutActivity : AppCompatActivity() {
             onBackPressed()
         }
         binding.btnCheckout.setOnClickListener {
-            if (refactorViewModel.isLoggedIn()) {
-                observeCheckoutResult()
-            } else {
-                navigateToLogin()
-            }
+            observeCheckoutResult()
         }
-    }
-
-    private fun navigateToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     private fun observeCheckoutResult() {

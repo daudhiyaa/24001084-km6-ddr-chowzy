@@ -28,6 +28,7 @@ import com.example.chowzy.data.source.local.database.dao.CartDao
 import com.example.chowzy.data.source.network.services.RestaurantApiService
 import com.example.chowzy.presentation.auth.login.LoginViewModel
 import com.example.chowzy.presentation.auth.register.RegisterViewModel
+import com.example.chowzy.presentation.cart.CartViewModel
 import com.example.chowzy.presentation.checkout.CheckoutViewModel
 import com.example.chowzy.presentation.detailmenu.DetailMenuViewModel
 import com.example.chowzy.presentation.home.HomeViewModel
@@ -46,7 +47,6 @@ object AppModules {
         single<RestaurantApiService> { RestaurantApiService.invoke() }
     }
 
-    // todo: add firebase module
     private val firebaseModule = module {
         single<FirebaseAuth> { FirebaseAuth.getInstance() }
         single<FirebaseServices> { FirebaseServicesImpl(get()) }
@@ -93,7 +93,7 @@ object AppModules {
         viewModelOf(::MainViewModel)
         viewModelOf(::CheckoutViewModel)
         viewModelOf(::ProfileViewModel)
-        // todo: add other viewmodels
+        viewModelOf(::CartViewModel)
     }
 
     val modules = listOf<Module>(

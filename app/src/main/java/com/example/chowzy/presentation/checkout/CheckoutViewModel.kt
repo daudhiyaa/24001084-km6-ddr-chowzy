@@ -27,8 +27,4 @@ class CheckoutViewModel(
             cartRepository.deleteAll()
         }
     }
-
-    fun isLoggedIn(): Boolean {
-        return authRepository.isLoggedIn()
-    }
 }
