@@ -1,6 +1,6 @@
-package com.example.chowzy.data.source.local.preference
+package com.example.chowzy.data.repository.preference
 
-interface UserPreference {
+interface PreferenceRepository {
     fun isUsingGridMode(): Boolean
     fun setUsingGridMode(isUsingGridMode: Boolean)
 }
