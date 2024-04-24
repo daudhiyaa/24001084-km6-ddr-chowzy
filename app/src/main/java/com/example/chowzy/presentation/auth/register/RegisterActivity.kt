@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import com.example.chowzy.R
 import com.example.chowzy.databinding.ActivityRegisterBinding
 import com.example.chowzy.presentation.auth.login.LoginActivity
-import com.example.chowzy.presentation.main.MainActivity
 import com.example.chowzy.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
