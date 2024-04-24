@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.chowzy.databinding.FragmentProfileBinding
-import com.example.chowzy.presentation.auth.login.LoginActivity
 import com.example.chowzy.presentation.main.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

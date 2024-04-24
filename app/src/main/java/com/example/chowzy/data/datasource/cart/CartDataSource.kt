@@ -1,6 +1,5 @@
 package com.example.chowzy.data.datasource.cart
 
-import com.example.chowzy.data.source.local.database.dao.CartDao
 import com.example.chowzy.data.source.local.database.entity.CartEntity
 import kotlinx.coroutines.flow.Flow
 
