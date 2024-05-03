@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
@@ -97,9 +99,21 @@ class HomeFragment : Fragment() {
         homeViewModel.getMenu(name).observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
                     it.payload?.let { data ->
                         bindMenuList(data)
                     }
+                },
+                doOnError = {
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), "Failed Bind List Menu", Toast.LENGTH_SHORT)
+                        .show()
+                },
+                doOnLoading = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = true
                 }
             )
         }
@@ -109,7 +123,19 @@ class HomeFragment : Fragment() {
         homeViewModel.getCategory().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
                     it.payload?.let { data -> bindCategory(data) }
+                },
+                doOnError = {
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), "Failed Bind List Category", Toast.LENGTH_SHORT)
+                        .show()
+                },
+                doOnLoading = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = true
                 }
             )
         }
