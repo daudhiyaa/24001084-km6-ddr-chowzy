@@ -25,6 +25,8 @@ import com.example.chowzy.data.source.firebase.FirebaseServices
 import com.example.chowzy.data.source.firebase.FirebaseServicesImpl
 import com.example.chowzy.data.source.local.database.AppDatabase
 import com.example.chowzy.data.source.local.database.dao.CartDao
+import com.example.chowzy.data.source.local.preference.UserPreference
+import com.example.chowzy.data.source.local.preference.UserPreferenceImpl
 import com.example.chowzy.data.source.network.services.RestaurantApiService
 import com.example.chowzy.presentation.auth.login.LoginViewModel
 import com.example.chowzy.presentation.auth.register.RegisterViewModel
@@ -58,10 +60,10 @@ object AppModules {
         single<SharedPreferences> {
             SharedPreferenceUtils.createPreference(
                 androidContext(),
-                PreferenceDataSourceImpl.PREF_NAME
+                UserPreferenceImpl.PREF_NANE
             )
         }
-        single<PreferenceDataSource> { PreferenceDataSourceImpl(get()) }
+        single<UserPreference> { UserPreferenceImpl(get()) }
     }
 
     private val datasourceModule = module {
