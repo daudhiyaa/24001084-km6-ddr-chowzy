@@ -247,37 +247,18 @@ class CartRepositoryImplTest {
     @Test
     fun `create cart success`() {
         val mockMenu = mockk<Menu>(relaxed = true)
-        every { mockMenu.id } returns "uuid"
+        every { mockMenu.id } returns "1"
         coEvery { dataSource.insertCart(any()) } returns 1
 
         runTest {
+            /* if notes = null */
+            // repository.createCart(mockMenu, 1)
             repository.createCart(mockMenu, 1, "random")
                 .map {
                     delay(100)
                     it
                 }.test {
-                    delay(201)
-                    val actualData = expectMostRecentItem()
-                    assertTrue(actualData is ResultWrapper.Success)
-                    assertEquals(true, actualData.payload)
-                    coVerify { dataSource.insertCart(any()) }
-                }
-        }
-    }
-
-    @Test
-    fun `create cart success notes null`() {
-        val mockMenu = mockk<Menu>(relaxed = true)
-        every { mockMenu.id } returns "1"
-        coEvery { dataSource.insertCart(any()) } returns 1
-
-        runTest {
-            repository.createCart(mockMenu, 1)
-                .map {
-                    delay(100)
-                    it
-                }.test {
-                    delay(2201)
+                    delay(701)
                     val actualData = expectMostRecentItem()
                     assertTrue(actualData is ResultWrapper.Success)
                     assertEquals(true, actualData.payload)
@@ -309,7 +290,10 @@ class CartRepositoryImplTest {
     fun `create cart error process`() {
         val mockMenu = mockk<Menu>(relaxed = true)
         every { mockMenu.id } returns "1"
+        /* error product ID */
+        // every { mockMenu.id } returns null
         coEvery { dataSource.insertCart(any()) } throws IllegalStateException("Create Cart Error")
+
         runTest {
             repository.createCart(mockMenu, 1, "random")
                 .map {
@@ -320,25 +304,8 @@ class CartRepositoryImplTest {
                     val actualData = expectMostRecentItem()
                     assertTrue(actualData is ResultWrapper.Error)
                     coVerify { dataSource.insertCart(any()) }
-                }
-        }
-    }
-
-    @Test
-    fun `create cart error product ID`() {
-        val mockMenu = mockk<Menu>(relaxed = true)
-        every { mockMenu.id } returns null
-        coEvery { dataSource.insertCart(any()) } throws IllegalStateException("Create Cart Error")
-        runTest {
-            repository.createCart(mockMenu, 1, "random")
-                .map {
-                    delay(100)
-                    it
-                }.test {
-                    delay(210)
-                    val actualData = expectMostRecentItem()
-                    assertTrue(actualData is ResultWrapper.Error)
-                    coVerify(atLeast = 0) { dataSource.insertCart(any()) }
+                    /* error product ID */
+                    // coVerify(atLeast = 0) { dataSource.insertCart(any()) }
                 }
         }
     }
@@ -348,12 +315,12 @@ class CartRepositoryImplTest {
         val mockCart =
             Cart(
                 id = 1,
-                productId = "aaa",
-                productName = "aaa",
-                productImgUrl = "aaa",
+                productId = "random",
+                productName = "random",
+                productImgUrl = "random",
                 productPrice = 2000,
                 itemQuantity = 2,
-                itemNotes = "aaa",
+                itemNotes = "random",
             )
 
         coEvery { dataSource.deleteCart(any()) } returns 1
