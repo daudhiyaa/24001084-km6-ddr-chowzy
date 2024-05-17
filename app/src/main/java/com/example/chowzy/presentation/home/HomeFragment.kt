@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCategoryData() {
-        homeViewModel.getCategory().observe(viewLifecycleOwner) {
+        homeViewModel.getCategories().observe(viewLifecycleOwner) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false

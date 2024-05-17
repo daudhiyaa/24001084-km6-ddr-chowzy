@@ -33,7 +33,7 @@ class HomeViewModel(
     fun getMenu(categoryName: String? = null) =
         menuRepository.getMenus(categoryName).asLiveData(Dispatchers.IO)
 
-    fun getCategory() = categoryRepository.getCategories().asLiveData(Dispatchers.IO)
+    fun getCategories() = categoryRepository.getCategories().asLiveData(Dispatchers.IO)
 
     fun getCurrentUser() = authRepository.getCurrentUser()
 
