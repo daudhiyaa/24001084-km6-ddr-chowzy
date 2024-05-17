@@ -88,7 +88,7 @@ class HomeViewModelTest {
         }
         val result = viewModel.getMenu().getOrAwaitValue()
         assertEquals(2, result.payload?.size)
-        verify { menuRepo.getMenus() }
+        verify { menuRepo.getMenus(any()) }
     }
 
     @Test
